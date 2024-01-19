@@ -1,5 +1,6 @@
 ﻿// @(h)TestCallback.cs ver 0.00 ( '24.01.18 Nov-Lab ) 作成開始
 // @(h)TestCallback.cs ver 0.51 ( '24.01.18 Nov-Lab ) ベータ版完成。
+// @(h)TestCallback.cs ver 0.51a( '24.01.19 Nov-Lab ) その他  ：ロジックを微修正。機能変更なし。
 
 // @(s)
 // 　【コールバックテスト】各種コールバック方法をテストします。
@@ -7,6 +8,7 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Reflection;
 
 
 namespace Exam_CallbackMethod
@@ -148,7 +150,7 @@ namespace Exam_CallbackMethod
                 throw new Exception("例外を要求されました");  // イベント呼び出しの場合はここで中断される
             }
 
-            e.resultTable[new StackFrame().GetMethod().Name] = "OK1:" + e.message;
+            e.resultTable[MethodBase.GetCurrentMethod().Name] = "OK1:" + e.message;
         }
 
 
@@ -163,7 +165,7 @@ namespace Exam_CallbackMethod
                 throw new Exception("例外を要求されました");  // イベント呼び出しの場合はここで中断される
             }
 
-            e.resultTable[new StackFrame().GetMethod().Name] = "OK2:" + e.message;
+            e.resultTable[MethodBase.GetCurrentMethod().Name] = "OK2:" + e.message;
         }
 
     } // class
