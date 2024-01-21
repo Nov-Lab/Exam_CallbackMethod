@@ -1,5 +1,6 @@
 ﻿// @(h)FrmAppCallbackTest.cs ver 0.00 ( '24.01.18 Nov-Lab ) 作成開始
 // @(h)FrmAppCallbackTest.cs ver 0.51 ( '24.01.18 Nov-Lab ) ベータ版完成。
+// @(h)FrmAppCallbackTest.cs ver 0.52 ( '24.01.21 Nov-Lab ) 機能追加：インターフェイス呼び出しのテストを追加した。
 
 // @(s)
 // 　【コールバックテスト用フォーム】各種コールバック方法をテストします。
@@ -46,6 +47,11 @@ namespace Exam_CallbackMethod
         /// 【MethodInfo.Invoke 呼び出し用メソッドリスト】
         /// </summary>
         protected List<MethodInfo> m_testMethods = new List<MethodInfo>();
+
+        /// <summary>
+        /// 【インターフェイス呼び出し用I/Fリスト】
+        /// </summary>
+        protected List<ICallbackTest> m_testInterfaces = new List<ICallbackTest>();
 
 
         //====================================================================================================
@@ -130,6 +136,22 @@ namespace Exam_CallbackMethod
                                 typeof(EventHandler<TestEventArgs>),
                                 m_callbackTest,
                                 methodInfo);
+                }
+            }
+
+            // ＜メモ＞
+            // ・インターフェイスで static メソッドは実装できない(インスタンスメソッドのみ)ので、
+            //   コールバックテストインスタンスの中から検索・収集する
+            //------------------------------------------------------------
+            /// インターフェイス呼び出し用I/Fを検索・収集する
+            //------------------------------------------------------------
+            foreach (var fieldInfo in typeof(TestCallback).GetFields())
+            {                                                           //// コールバックテストクラスのフィールド情報を繰り返す
+                var fieldObject = fieldInfo.GetValue(m_callbackTest);   /////  コールバックテストインスタンスからフィールドオブジェクトを取得する
+                var ifCallback = fieldObject as ICallbackTest;          /////  フィールドオブジェクトをコールバックテストI/Fにキャスト試行する
+                if (ifCallback != null)
+                {                                                       /////  キャスト成功の場合
+                    m_testInterfaces.Add(ifCallback);                   //////   インターフェイス呼び出し用I/Fリストに追加する
                 }
             }
         }
@@ -232,6 +254,38 @@ namespace Exam_CallbackMethod
             foreach (var tmpResult in eventArgs.resultTable)
             {                                                           //// 戻り値テーブルを繰り返す
                 Trace.WriteLine(tmpResult.Key + ":" + tmpResult.Value); /////  トレース出力(処理結果)
+            }
+        }
+
+
+        //--------------------------------------------------------------------------------
+        /// <summary>
+        /// 【インターフェイスでコールバックボタン_Click】
+        /// インターフェイスを用いたコールバック呼び出しをテストします。
+        /// </summary>
+        //--------------------------------------------------------------------------------
+        private void BtnCallbackByInterface_Click(object sender, EventArgs e)
+        {
+            //------------------------------------------------------------
+            /// インターフェイスを用いたコールバック呼び出しをテストする
+            //------------------------------------------------------------
+            foreach (var tmpInterface in m_testInterfaces)
+            {                                                               //// インターフェイス呼び出し用I/Fリストを繰り返す
+                var result = tmpInterface.Init(
+                    "ABCDE", ChkRequestException.Checked);                  /////  前処理を呼び出す
+                Trace.WriteLine(tmpInterface.GetInstanceName() + ".Init:" 
+                    + result.ToString());                                   /////  トレース出力(処理結果)
+
+                result = tmpInterface.Body(
+                    "ABCDE", ChkRequestException.Checked);                  /////  処理本体を呼び出す
+                Trace.WriteLine(tmpInterface.GetInstanceName() + ".Body:"
+                    + result.ToString());                                   /////  トレース出力(処理結果)
+
+                result = tmpInterface.Term(
+                    "ABCDE", ChkRequestException.Checked);                  /////  後処理を呼び出す
+                Trace.WriteLine(tmpInterface.GetInstanceName() + ".Term:"
+                    + result.ToString());                                   /////  トレース出力(処理結果)
+
             }
         }
 

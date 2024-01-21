@@ -34,6 +34,7 @@ namespace Exam_CallbackMethod
             this.BtnCallbackByEvent = new System.Windows.Forms.Button();
             this.ChkRequestException = new System.Windows.Forms.CheckBox();
             this.LstTrace = new System.Windows.Forms.ListBox();
+            this.BtnCallbackByInterface = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // BtnCallbackByDelegate
@@ -69,10 +70,10 @@ namespace Exam_CallbackMethod
             // ChkRequestException
             // 
             this.ChkRequestException.AutoSize = true;
-            this.ChkRequestException.Location = new System.Drawing.Point(16, 136);
+            this.ChkRequestException.Location = new System.Drawing.Point(16, 176);
             this.ChkRequestException.Name = "ChkRequestException";
             this.ChkRequestException.Size = new System.Drawing.Size(120, 16);
-            this.ChkRequestException.TabIndex = 3;
+            this.ChkRequestException.TabIndex = 4;
             this.ChkRequestException.Text = "Request Exception";
             this.ChkRequestException.UseVisualStyleBackColor = true;
             // 
@@ -86,14 +87,25 @@ namespace Exam_CallbackMethod
             this.LstTrace.ItemHeight = 12;
             this.LstTrace.Location = new System.Drawing.Point(224, 16);
             this.LstTrace.Name = "LstTrace";
-            this.LstTrace.Size = new System.Drawing.Size(408, 136);
-            this.LstTrace.TabIndex = 4;
+            this.LstTrace.Size = new System.Drawing.Size(408, 172);
+            this.LstTrace.TabIndex = 5;
+            // 
+            // BtnCallbackByInterface
+            // 
+            this.BtnCallbackByInterface.Location = new System.Drawing.Point(16, 136);
+            this.BtnCallbackByInterface.Name = "BtnCallbackByInterface";
+            this.BtnCallbackByInterface.Size = new System.Drawing.Size(192, 24);
+            this.BtnCallbackByInterface.TabIndex = 3;
+            this.BtnCallbackByInterface.Text = "Callback by Interface";
+            this.BtnCallbackByInterface.UseVisualStyleBackColor = true;
+            this.BtnCallbackByInterface.Click += new System.EventHandler(this.BtnCallbackByInterface_Click);
             // 
             // FrmAppCallbackTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(650, 172);
+            this.ClientSize = new System.Drawing.Size(650, 210);
+            this.Controls.Add(this.BtnCallbackByInterface);
             this.Controls.Add(this.LstTrace);
             this.Controls.Add(this.ChkRequestException);
             this.Controls.Add(this.BtnCallbackByEvent);
@@ -115,6 +127,7 @@ namespace Exam_CallbackMethod
         private System.Windows.Forms.Button BtnCallbackByEvent;
         private System.Windows.Forms.CheckBox ChkRequestException;
         private System.Windows.Forms.ListBox LstTrace;
+        private System.Windows.Forms.Button BtnCallbackByInterface;
     }
 }
 
